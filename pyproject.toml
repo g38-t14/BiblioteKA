@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "biblioteka"
+version = "0.1.0"
+description = "aplicação que faz a gestão de uma biblioteca"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+djangorestframework = "^3.14.0"
+psycopg2-binary = "^2.9.6"
+python-dotenv = "^1.0.0"
+djangorestframework-simplejwt = "^5.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+ipdb = "^0.13.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
