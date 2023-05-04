@@ -1,8 +1,7 @@
 from django.db import models
 
 
-# Create your models here.
-class BookFollowers(models.Model):
+class Followers(models.Model):
     book = models.ForeignKey(
         "books.book",
         on_delete=models.CASCADE,
