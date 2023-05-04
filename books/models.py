@@ -10,5 +10,6 @@ class Book(models.Model):
     users_following = models.ManyToManyField(
         "users.User",
         through="following.BookFollowers",
-        related_name="books_following"
+        related_name="books_following", 
+        null=True
     )
