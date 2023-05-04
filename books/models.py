@@ -1,11 +1,12 @@
 from django.db import models
 
 
-# Create your models here.
 class Book(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, unique=True)
     description = models.TextField()
     author = models.CharField(max_length=100)
+    quantity = models.IntegerField(default=1)
+    max_loan_time = models.IntegerField(default=7)
 
     users_following = models.ManyToManyField(
         "users.User",

@@ -1,7 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
 class Loan(models.Model):
     copy = models.ForeignKey(
         "copies.Copy",
@@ -15,3 +14,5 @@ class Loan(models.Model):
     )
 
     return_date = models.DateTimeField()
+
+    returned = models.BooleanField(default=False)
