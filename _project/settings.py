@@ -45,6 +45,7 @@ MY_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "django_apscheduler",
 ]
 
 DJANGO_APPS = [
