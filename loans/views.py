@@ -27,6 +27,9 @@ class LoanView(generics.CreateAPIView):
             raise PermissionDenied("Usuário com débito de livros!")
 
         book_id = self.kwargs["id"]
+        if not Book.objects.filter(id=book_id).exists():
+            raise NotFound("Desculpe, não temos esse livro cadastrado!")
+        
         book_obj = get_object_or_404(Book, pk=book_id)
         copy_obj = Copy.objects.filter(book=book_obj, available=True).first()
 
