@@ -25,8 +25,12 @@ class LoanView(generics.CreateAPIView):
             raise PermissionDenied("Usuário com débito de livros!")
        
         book_id = self.kwargs["id"]
+        if not Book.objects.filter(id=book_id).exists():
+            raise NotFound("Desculpe, não temos esse livro cadastrado!")
+        
         book_obj = get_object_or_404(Book, pk=book_id)
         copy_obj = Copy.objects.filter(book = book_obj, available=True).first()
+
     
         if copy_obj:
             
@@ -44,10 +48,8 @@ class LoanView(generics.CreateAPIView):
             
             serializer.save(loaner=user, return_date=return_date, copy=copy_obj)
         else:
-            raise NotFound(
-                "Não temos mais unidades disponiveis desse livro"
-            )
-    
+            raise NotFound("Não temos mais unidades disponiveis desse livro")
+ 
 
 
 
