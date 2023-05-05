@@ -1,14 +1,17 @@
 from django.db import models
 
 
-class Followers(models.Model):
-    book = models.ForeignKey(
+class Follower(models.Model):
+    book_id = models.ForeignKey(
         "books.book",
         on_delete=models.CASCADE,
         related_name="book_following"
     )
-    follower = models.ForeignKey(
+    user_id = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
         related_name="user_book_follower"
     )
+
+    class Meta:
+        unique_together = ["book_id", "user_id"]
