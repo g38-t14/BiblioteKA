@@ -65,3 +65,15 @@ class ReturnBookView(generics.UpdateAPIView):
             raise PermissionDenied("Livro já retornado")
         serializer.validated_data["returned"] = True
         serializer.save()
+
+class LoanDetailView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    
+    serializer_class = LoanSerializer
+    queryset = Loan.objects.all()
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Loan.objects.filter(loaner=user)
+    

@@ -14,3 +14,4 @@ class ReturnLoanSerializer(serializers.ModelSerializer):
         model = Loan
         fields = ["copy", "loaner", "return_date", "returned"]
         read_only_fields = ["copy", "loaner", "return_date"]
+
