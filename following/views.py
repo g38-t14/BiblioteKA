@@ -8,11 +8,12 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from utils.generic_set_views import CreateDestroyGenericView
 from rest_framework.exceptions import ParseError, NotFound
+from .permissions import IsOwnerOrAdmin, IsEmployee
 
 
 class FollowView(CreateDestroyGenericView, generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsEmployee]
 
     queryset = Follower.objects.all()
     serializer_class = FollowerSerializer
@@ -38,8 +39,8 @@ class FollowView(CreateDestroyGenericView, generics.ListAPIView):
 
 
 class FollowDetailView(generics.ListAPIView): 
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsOwnerOrAdmin]
 
     queryset = Follower.objects.all()
     serializer_class = FollowerSerializer
