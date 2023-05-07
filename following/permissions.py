@@ -11,5 +11,4 @@ class IsEmployee(permissions.BasePermission):
 
 class IsOwnerOrAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
-        import ipdb; ipdb.set_trace()
         return view.kwargs.get('pk') == request.user.id or request.user.is_superuser
