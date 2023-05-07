@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import dotenv
+from datetime import timedelta
 
 dotenv.load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -45,6 +46,7 @@ MY_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "drf_spectacular"
 ]
 
 DJANGO_APPS = [
@@ -121,6 +123,20 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+REST_FRAMEWORK = {
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    # "PAGE_SIZE": 2,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "M5 Final Project: BiblioteKA",
+    "DESCRIPTION":
+        """
+        The BiblioteKA Project consists of a backend application that simulates a Library's daily-management. 
+        It is developed with Generic Views, Model Serializer and Postgres database."""
+}
 
 
 # Internationalization
