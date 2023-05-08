@@ -42,11 +42,13 @@ MY_APPS = [
     "copies",
     "following",
     "loans",
+    "schedule",
 ]
 
 THIRD_PARTY_APPS = [
     "rest_framework",
-    "drf_spectacular"
+    "drf_spectacular",
+    "django_apscheduler",
 ]
 
 DJANGO_APPS = [
@@ -132,10 +134,9 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "M5 Final Project: BiblioteKA",
-    "DESCRIPTION":
-        """
+    "DESCRIPTION": """
         The BiblioteKA Project consists of a backend application that simulates a Library's daily-management. 
-        It is developed with Generic Views, Model Serializer and Postgres database."""
+        It is developed with Generic Views, Model Serializer and Postgres database.""",
 }
 
 

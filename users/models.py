@@ -15,5 +15,6 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50)
 
     is_blocked = models.BooleanField(null=True, default=False)
+    block_date = models.DateField(null=True, default=None)
 
     role = models.CharField(max_length=20, choices=UserRole.choices)

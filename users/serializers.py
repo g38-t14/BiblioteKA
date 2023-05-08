@@ -31,10 +31,12 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "is_blocked",
             "role",
+            "block_date",
         ]
         extra_kwargs = {
             "password": {"write_only": True},
             "is_blocked": {"write_only": True},
+            "block_date": {"write_only": True},
             "username": {
                 "validators": [
                     UniqueValidator(
