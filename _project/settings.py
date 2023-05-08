@@ -44,10 +44,7 @@ MY_APPS = [
     "loans",
 ]
 
-THIRD_PARTY_APPS = [
-    "rest_framework",
-    "drf_spectacular"
-]
+THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular"]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -137,10 +134,9 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "M5 Final Project: BiblioteKA",
-    "DESCRIPTION":
-        """
+    "DESCRIPTION": """
         The BiblioteKA Project consists of a backend application that simulates a Library's daily-management. 
-        It is developed with Generic Views, Model Serializer and Postgres database."""
+        It is developed with Generic Views, Model Serializer and Postgres database.""",
 }
 
 
@@ -167,3 +163,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
