@@ -77,3 +77,19 @@ class LoanDetailView(generics.ListAPIView):
         user = self.request.user
         return Loan.objects.filter(loaner=user)
     
+class LoanListView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    authentication_classes = [JWTAuthentication]
+
+    serializer_class = LoanSerializer
+    queryset = Loan.objects.all()
+
+class LoanListDetailView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+    authentication_classes = [JWTAuthentication]
+
+    serializer_class = LoanSerializer
+    queryset = Loan.objects.all()
+   
+    def get_queryset(self):
+        return self.queryset.filter(loaner=self.kwargs.get("pk"))
