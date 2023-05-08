@@ -3,7 +3,9 @@ from .views import FollowView, FollowDetailView
 
 
 urlpatterns = [
-    path("book/<int:pk>/following/", FollowView.as_view()), #Create Follow // Delete Follow
-    path("following/", FollowView.as_view()), 
-    path("users/<int:pk>/following/", FollowDetailView.as_view()), #List user's follows
+    path(
+        "book/<int:pk>/following/", FollowView.as_view()
+    ),  # Criar Follow | Deletar Follow (Unfollow)
+    path("following/", FollowView.as_view()),  # Listar Todos Follows (só employee)
+    path("users/following/", FollowDetailView.as_view()),  # Listar Follows do Usuário
 ]

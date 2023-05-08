@@ -1,18 +1,19 @@
 from django.shortcuts import render
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
 from .models import Follower
 from books.models import Book
 from .serializers import FollowerSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
+from rest_framework import generics
 from utils.generic_set_views import CreateDestroyGenericView
 from rest_framework.exceptions import ParseError, NotFound
+from .permissions import IsEmployee
 
 
 class FollowView(CreateDestroyGenericView, generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsEmployee]
 
     queryset = Follower.objects.all()
     serializer_class = FollowerSerializer
@@ -23,7 +24,7 @@ class FollowView(CreateDestroyGenericView, generics.ListAPIView):
 
         if user.user_book_follower.filter(book_id=book_id):
             raise ParseError("Este livro já está sendo seguido!")
-    
+
         book_obj = get_object_or_404(Book, pk=book_id)
         serializer.save(user=user, book=book_obj)
 
@@ -31,19 +32,21 @@ class FollowView(CreateDestroyGenericView, generics.ListAPIView):
         user = self.request.user
         book_id = self.kwargs["pk"]
         if not user.user_book_follower.filter(book_id=book_id):
-            raise ParseError("Este livro não está sendo seguido!")
-        
-        follow_obj = get_object_or_404(Follower, book_id=self.kwargs.get("pk"))
+            raise NotFound("Este livro não está sendo seguido!")
+
+        follow_obj = get_object_or_404(
+            Follower, book_id=self.kwargs.get("pk"), user=user
+        )
         follow_obj.delete()
 
 
-class FollowDetailView(generics.ListAPIView): 
-    # authentication_classes = [JWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+class FollowDetailView(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     queryset = Follower.objects.all()
     serializer_class = FollowerSerializer
-    # lookup_url_kwarg = "book_id"
 
     def get_queryset(self):
-        return self.queryset.filter(user_id=self.kwargs.get("pk"))
+        user = self.request.user
+        return Follower.objects.filter(user=user)
