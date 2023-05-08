@@ -14,8 +14,20 @@ from datetime import datetime, timedelta
 logger = logging.getLogger(__name__)
 
 
+def check_users_loans():
+    today = timezone.now().date()
+    users = User.objects.filter(
+        user_copy_loan__returned=False,
+        user_copy_loan__return_date__date__lt=today,
+    ).distinct()
+    for user in users:
+        user.is_blocked = True
+        user.block_date = today
+        user.save()
+
+
 def remove_blocked():
-    now = datetime.now()
+    now = timezone.now().date()
     users = User.objects.filter(is_blocked=True)
 
     for user_obj in users:
@@ -49,6 +61,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
+
+        scheduler.add_job(
+            check_users_loans,
+            trigger=CronTrigger(hour="22", minute="00"),
+            id="check_users_loans",
+            max_instances=1,
+            replace_existing=False,
+        )  # Daily, after work time
+        logger.info("Added daily job 'check_user_loans'.")
 
         scheduler.add_job(
             remove_blocked,
