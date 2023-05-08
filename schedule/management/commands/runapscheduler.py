@@ -31,11 +31,11 @@ def remove_blocked():
     users = User.objects.filter(is_blocked=True)
 
     for user_obj in users:
-        date_object = datetime.strptime(user_obj["block_date"], "%Y-%m-%d")
+        date_object = datetime.strptime(user_obj.block_date, "%Y-%m-%d")
         days_passed = now - date_object
         if days_passed.days >= 3:
-            user_obj["is_blocked"] = False
-            user_obj["block_date"] = None
+            user_obj.is_blocked = False
+            user_obj.block_date = None
             user_obj.save()
 
 

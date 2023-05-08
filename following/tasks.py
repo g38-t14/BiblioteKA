@@ -10,25 +10,21 @@ from following.models import Follower
 
 @shared_task
 def notify_followers(book_id):
-    import ipdb
-
-    ipdb.set_trace()
     # Get the book object
     book = Book.objects.get(id=book_id)
 
     # Get the followers for the book
-    followers = User.objects.filter(book_following__book=book)
+    followers = Book.objects.get(id=book_id).users_following.all()
 
     # Get the copies of the book that are available
-    copies = Copy.objects.filter(book=book, available=True)
 
     # For each follower, send an email notification
     for follower in followers:
         subject = "The book you follow is available!"
-        message = render_to_string("templates/book_available.txt", {"book": book})
+        message = f"The book {book.title} is now available for loan"
         send_mail(
-            subject="Book Available",
-            message="Bla bla bla",
+            subject=subject,
+            message=message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[follower.email],
             fail_silently=False,
