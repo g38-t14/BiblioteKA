@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 def check_users_loans():
     today = timezone.now().date()
     users = User.objects.filter(
-        user_copy_loan__return_date__date=today,
+        user_copy_loan__returned=False,
+        user_copy_loan__return_date__date__lt=today,
     ).distinct()
     for user in users:
         user.is_blocked = True
@@ -26,7 +27,7 @@ def check_users_loans():
 
 
 def remove_blocked():
-    now = datetime.now()
+    now = timezone.now().date()
     users = User.objects.filter(is_blocked=True)
 
     for user_obj in users:
