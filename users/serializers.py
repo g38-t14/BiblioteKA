@@ -5,7 +5,6 @@ from rest_framework.validators import UniqueValidator
 
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
-        print(validated_data)
         if validated_data["role"] == "employee":
             return User.objects.create_superuser(**validated_data)
 
@@ -18,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         for key, value in validated_data.items():
             setattr(instance, key, value)
         instance.save()
+
         return instance
 
     class Meta:
@@ -48,7 +48,8 @@ class UserSerializer(serializers.ModelSerializer):
             "email": {
                 "validators": [
                     UniqueValidator(
-                        queryset=User.objects.all(), message="Email already registered."
+                        queryset=User.objects.all(),
+                        message="Email already registered.",
                     )
                 ],
             },

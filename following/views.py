@@ -1,14 +1,16 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from rest_framework import generics
+from utils.generic_set_views import CreateDestroyGenericView
+
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsEmployee
+
 from .models import Follower
 from books.models import Book
 from .serializers import FollowerSerializer
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
-from utils.generic_set_views import CreateDestroyGenericView
+
+from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ParseError, NotFound
-from .permissions import IsEmployee
 
 
 class FollowView(CreateDestroyGenericView, generics.ListAPIView):
@@ -23,7 +25,7 @@ class FollowView(CreateDestroyGenericView, generics.ListAPIView):
         book_id = self.kwargs["pk"]
 
         if user.user_book_follower.filter(book_id=book_id):
-            raise ParseError("Este livro já está sendo seguido!")
+            raise ParseError("This book is already being followed!")
 
         book_obj = get_object_or_404(Book, pk=book_id)
         serializer.save(user=user, book=book_obj)
@@ -31,8 +33,9 @@ class FollowView(CreateDestroyGenericView, generics.ListAPIView):
     def perform_destroy(self, instance):
         user = self.request.user
         book_id = self.kwargs["pk"]
+
         if not user.user_book_follower.filter(book_id=book_id):
-            raise NotFound("Este livro não está sendo seguido!")
+            raise NotFound("This book is not being followed!")
 
         follow_obj = get_object_or_404(
             Follower, book_id=self.kwargs.get("pk"), user=user
@@ -49,4 +52,5 @@ class FollowDetailView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
+
         return Follower.objects.filter(user=user)

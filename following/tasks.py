@@ -1,14 +1,8 @@
 from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from celery import shared_task
 from django.conf import settings
-from users.models import User
-from copies.models import Copy
 from books.models import Book
-from following.models import Follower
 
 
-@shared_task
 def notify_followers(book_id):
     book = Book.objects.get(id=book_id)
     followers = Book.objects.get(id=book_id).users_following.all()

@@ -5,13 +5,31 @@ from .models import Loan
 class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
-        fields = ["copy", "loaner", "return_date", "returned"]
-        read_only_fields = ["copy", "loaner", "return_date", "returned"]
+        fields = [
+            "copy",
+            "loaner",
+            "return_date",
+            "returned",
+        ]
+        read_only_fields = [
+            "copy",
+            "loaner",
+            "return_date",
+            "returned",
+        ]
 
 
 class ReturnLoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
-        fields = ["copy", "loaner", "return_date", "returned"]
-        read_only_fields = ["copy", "loaner", "return_date"]
-
+        fields = [
+            "copy",
+            "loaner",
+            "return_date",
+            "returned",
+        ]
+        read_only_fields = [
+            "copy",
+            "loaner",
+            "return_date",
+        ]
