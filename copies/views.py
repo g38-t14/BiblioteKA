@@ -10,9 +10,3 @@ class Copy(models.Model):
         if self.available:
             notify_followers.delay(self.book.id)
         super().save(*args, **kwargs)
-
-
-@receiver(post_save, sender=Copy)
-def send_notification(sender, instance, created, **kwargs):
-    if created and instance.available:
-        notify_followers.delay(instance.book.id)
