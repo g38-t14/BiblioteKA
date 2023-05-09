@@ -2,7 +2,7 @@
 name = "biblioteka"
 version = "0.1.0"
 description = "aplicação que faz a gestão de uma biblioteca"
-authors = ["Your Name <you@example.com>"]
+authors = ["Giovanni Perotto <giovanniperotto@hotmail.com>", "Juliana Airana <julianairana@hotmail.com>", "Sarah Venske <sarahvenske@gmail.com>", "Túlio Albuquerque <tulioalbuquerque@outlook.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
