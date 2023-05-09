@@ -10,18 +10,15 @@ from following.models import Follower
 
 @shared_task
 def notify_followers(book_id):
-    # Get the book object
     book = Book.objects.get(id=book_id)
-
-    # Get the followers for the book
     followers = Book.objects.get(id=book_id).users_following.all()
 
-    # Get the copies of the book that are available
-
-    # For each follower, send an email notification
     for follower in followers:
         subject = "The book you follow is available!"
-        message = f"The book {book.title} is now available for loan"
+        message = f"""
+            Hey {follower.first_name}!
+            The book {book.title} you're following is now available for loan! Hurry up!
+        """
         send_mail(
             subject=subject,
             message=message,
