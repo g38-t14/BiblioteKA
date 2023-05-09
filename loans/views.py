@@ -13,6 +13,8 @@ from .permissions import IsLoanOwner
 from .serializers import LoanSerializer, ReturnLoanSerializer
 from .models import Loan
 
+from following.tasks import notify_followers
+
 
 class LoanView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -29,7 +31,7 @@ class LoanView(generics.CreateAPIView):
         book_id = self.kwargs["id"]
         if not Book.objects.filter(id=book_id).exists():
             raise NotFound("Desculpe, não temos esse livro cadastrado!")
-        
+
         book_obj = get_object_or_404(Book, pk=book_id)
         copy_obj = Copy.objects.filter(book=book_obj, available=True).first()
 
@@ -61,22 +63,32 @@ class ReturnBookView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         loan_id = self.kwargs["loan_id"]
         loan = get_object_or_404(Loan, pk=loan_id)
+
         if loan.returned:
             raise PermissionDenied("Livro já retornado")
         serializer.validated_data["returned"] = True
+
+        copy = loan.copy
+        copy.available = True
+        copy.save()
         serializer.save()
+
+        book_id = loan.copy.book.id
+        notify_followers(book_id)
+
 
 class LoanDetailView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
-    
+
     serializer_class = LoanSerializer
     queryset = Loan.objects.all()
-    
+
     def get_queryset(self):
         user = self.request.user
         return Loan.objects.filter(loaner=user)
-    
+
+
 class LoanListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
     authentication_classes = [JWTAuthentication]
@@ -84,12 +96,13 @@ class LoanListView(generics.ListAPIView):
     serializer_class = LoanSerializer
     queryset = Loan.objects.all()
 
+
 class LoanListDetailView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
     authentication_classes = [JWTAuthentication]
 
     serializer_class = LoanSerializer
     queryset = Loan.objects.all()
-   
+
     def get_queryset(self):
         return self.queryset.filter(loaner=self.kwargs.get("pk"))
