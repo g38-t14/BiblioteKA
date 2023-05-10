@@ -54,4 +54,4 @@ Access the application documentation using the following link:
 ## Deploy
 
 Check out the application deploy using the link below:
-**[Documentation](http://127.0.0.1:8000/api/docs/swagger/)**
+**[Deploy](http://127.0.0.1:8000/api/docs/swagger/)**
