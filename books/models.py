@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=50, unique=True)
+    title = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     author = models.CharField(max_length=100)
     quantity = models.IntegerField(default=1)

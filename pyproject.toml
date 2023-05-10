@@ -2,7 +2,7 @@
 name = "biblioteka"
 version = "0.1.0"
 description = "aplicação que faz a gestão de uma biblioteca"
-authors = ["Your Name <you@example.com>"]
+authors = ["Giovanni Perotto <giovanniperotto@hotmail.com>", "Juliana Airana <julianairana@hotmail.com>", "Sarah Venske <sarahvenske@gmail.com>", "Túlio Albuquerque <tulioalbuquerque@outlook.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -18,14 +18,7 @@ django-apscheduler = "^0.6.2"
 dj-database-url = "^2.0.0"
 whitenoise = {extras = ["brotli"], version = "^6.4.0"}
 gunicorn = "^20.1.0"
-celery = "^5.2.7"
 
-
-
-[tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
-ipdb = "^0.13.13"
-pycodestyle = "^2.10.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -8,4 +8,5 @@ class IsEmployee(permissions.BasePermission):
             return (
                 request.user.is_authenticated and request.user.role == UserRole.EMPLOYEE
             )
+
         return True

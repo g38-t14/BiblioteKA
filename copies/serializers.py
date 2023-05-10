@@ -8,5 +8,5 @@ class CopySerializers(serializers.ModelSerializer):
         fields = [
             "id",
             "books_id",
-            "available"
+            "available",
         ]
