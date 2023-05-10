@@ -25,7 +25,7 @@ The project was developed using Python with the implementation of Generic Views,
 | POST | Create User | `/api/users/` | Students and Employees | No Authentication |
 | POST | Login | `/api/users/login/` | Students and Employees | No Authentication |
 | POST | Create Book | `/api/books/` | Employees | Authenticated |
-| GET | List All Books | `/api/books/` | Students and Employees | Authenticated |
+| GET | List All Books | `/api/books/` | Students and Employees | No Authentication |
 | POST | Loan Book | `/api/books/book_id/loans/` | Students and Employees | Authenticated |
 | PATCH | Return Book | `/api/loans/loan_id/return/` | Students and Employees | Authenticated |
 | GET | List User's Loans | `/api/users/loans/` | Students and Employees | Authenticated |
@@ -38,7 +38,7 @@ The project was developed using Python with the implementation of Generic Views,
 
 ## Application Rules
 
-- A user can borrow a book for a period of 7 days
+- A user can borrow a book for a default period of 7 days
 - If the book is not returned by the expected due date, the user will be blocked from borrowing any new books until the book is returned
 - A blocked user can only borrow new books after 3 days of penalty, calculated from the day the delayed book is returned
 - If the return date is on the weekend, the due date will be adjusted to the next weekday
